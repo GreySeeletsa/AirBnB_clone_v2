@@ -1,35 +1,32 @@
 #!/usr/bin/python3
-"""This defines state class."""
-import models
-from os import getenv
-from models.base_model import Base
-from models.base_model import BaseModel
+""" The State Module for the HBNB project """
+from models.base_model import BaseModel, Base
+from models import storage_type
 from models.city import City
-from sqlalchemy import Column
-from sqlalchemy import String
+from sqlalchemy import Column, String
 from sqlalchemy.orm import relationship
 
 
 class State(BaseModel, Base):
-    """Representing the state for MySQL database.
+    """ The State class / table model"""
+    __tablename__ = 'states'
+    if storage_type == 'db':
+        name = Column(String(128), nullable=False)
+        cities = relationship('City', backref='state',
+                              cascade='all, delete, delete-orphan')
+    else:
+        name = ''
 
-    Inheriting from SQLAlchemy Base and then links to MySQL table states.
-
-    Attributes:
-        __tablename__ (str): A name of MySQL table to store the States.
-        name (sqlalchemy String): Name of the State.
-        cities (sqlalchemy relationship): State-City relationship.
-    """
-    __tablename__ = "states"
-    name = Column(String(128), nullable=False)
-    cities = relationship("City",  backref="state", cascade="delete")
-
-    if getenv("HBNB_TYPE_STORAGE") != "db":
         @property
         def cities(self):
-            """Gets the list of all the related City objects."""
-            city_list = []
-            for city in list(models.storage.all(City).values()):
+            '''Returns a list of the City instances with the state_id
+                equals to the current State.id
+                FileStorage relationship between a State and the City
+            '''
+            from models import storage
+            related_cities = []
+            cities = storage.all(City)
+            for city in cities.values():
                 if city.state_id == self.id:
-                    city_list.append(city)
-            return city_list
+                    related_cities.append(city)
+            return related_cities

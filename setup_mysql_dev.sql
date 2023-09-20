@@ -1,19 +1,12 @@
--- It creates the MySQL server with:
---   The database hbnb_dev_db.
---   The user hbnb_dev with the password hbnb_dev_pwd in a localhost.
---   It grants all the privileges for hbnb_dev on hbnb_dev_db.
---   It grants SELECT privilege for hbnb_dev on performance_schema.
-
+-- the script prepare  MySQL server for the project
+-- creates the project developement database with a name : hbnb_dev_db
 CREATE DATABASE IF NOT EXISTS hbnb_dev_db;
-CREATE USER
-    IF NOT EXISTS 'hbnb_dev'@'localhost'
-    IDENTIFIED BY 'hbnb_dev_pwd';
-GRANT ALL PRIVILEGES
-   ON `hbnb_dev_db`.*
-   TO 'hbnb_dev'@'localhost'
-   IDENTIFIED BY 'hbnb_dev_pwd';
-GRANT SELECT
-   ON `performance_schema`.*
-   TO 'hbnb_dev'@'localhost'
-   IDENTIFIED BY 'hbnb_dev_pwd';
+-- creats a new user named : hbnb_dev with all the privileges on a db hbnb_dev_db
+-- with password : hbnb_dev_pwd if it does not exist 
+CREATE USER IF NOT EXISTS 'hbnb_dev'@'localhost' IDENTIFIED BY 'hbnb_dev_pwd';
+-- grants all the privileges to a new user
+GRANT ALL PRIVILEGES ON hbnb_dev_db.* TO 'hbnb_dev'@'localhost';
+FLUSH PRIVILEGES;
+-- grants SELECT privilege for a user hbnb_dev in the db performance_schema
+GRANT SELECT ON performance_schema.* TO 'hbnb_dev'@'localhost';
 FLUSH PRIVILEGES;
