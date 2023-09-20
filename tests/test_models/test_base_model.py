@@ -92,3 +92,35 @@ class TestBaseModel(unittest.TestCase):
         self.assertIn("'id': '{}'".format(self.base.id), s)
         self.assertIn("'created_at': {}".format(repr(self.base.created_at)), s)
         self.assertIn("'updated_at': {}".format(repr(self.base.updated_at)), s)
+
+        @unittest.skipIf(os.getenv("HBNB_ENV") is not None,
+                         "Testing DBStorage")
+        def test_save(self):
+            """Test save method."""
+            old = self.base.updated_at
+            self.base.save()
+            self.assertLess(old, self.base.updated_at)
+            with open("file.json", "r") as f:
+                self.assertIn("BaseModel.{}".format(self.base.id), f.read())
+
+        def test_to_dict(self):
+            """Test to_dict method."""
+            base_dict = self.base.to_dict()
+            self.assertEqual(dict, type(base_dict))
+            self.assertEqual(self.base.id, base_dict["id"])
+            self.assertEqual("BaseModel", base_dict["__class__"])
+            self.assertEqual(self.base.created_at.isoformat(),
+                             base_dict["created_at"])
+            self.assertEqual(self.base.updated_at.isoformat(),
+                             base_dict["updated_at"])
+            self.assertEqual(base_dict.get("_sa_instance_state", None), None)
+
+        @unittest.skipIf(os.getenv("HBNB_ENV") is not None, "Testing DBStorage")
+        def test_delete(self):
+            """Test delete method."""
+            self.base.delete()
+            self.assertNotIn(self.base, FileStorage._FileStorage__objects)
+
+
+if __name__ == "__main__":
+    unittest.main()
