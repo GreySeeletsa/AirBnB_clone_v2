@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-''' module for file_storage tests '''
+"""unnittests for the db_storage.py file"""
 import unittest
 import MySQLdb
 from models.user import User
@@ -12,7 +12,7 @@ import os
 class TestDBStorage(unittest.TestCase):
     '''testing dbstorage engine'''
     def test_new_and_save(self):
-        '''testing  the new and save methods'''
+        """tests the new_save method"""
         db = MySQLdb.connect(user=os.getenv('HBNB_MYSQL_USER'),
                              host=os.getenv('HBNB_MYSQL_HOST'),
                              passwd=os.getenv('HBNB_MYSQL_PWD'),
@@ -41,7 +41,7 @@ class TestDBStorage(unittest.TestCase):
         db.close()
 
     def test_new(self):
-        """ New object is correctly added to database """
+        """tests the new method"""
         new = User(
             email='john2020@gmail.com',
             password='password',
@@ -70,7 +70,7 @@ class TestDBStorage(unittest.TestCase):
         dbc.close()
 
     def test_delete(self):
-        """ Object is correctly deleted from database """
+        """tests if obj is deleted"""
         new = User(
             email='john2020@gmail.com',
             password='password',
@@ -102,7 +102,7 @@ class TestDBStorage(unittest.TestCase):
         dbc.close()
 
     def test_reload(self):
-        """ Tests the reloading of the database session """
+        """tests the reload of session """
         dbc = MySQLdb.connect(
             host=os.getenv('HBNB_MYSQL_HOST'),
             port=3306,
@@ -132,7 +132,7 @@ class TestDBStorage(unittest.TestCase):
         dbc.close()
 
     def test_save(self):
-        """ object is successfully saved to database """
+        """tests the save method"""
         new = User(
             email='john2020@gmail.com',
             password='password',

@@ -1,15 +1,15 @@
 #!/usr/bin/python3
-"""The module define the class to manage the file storage for the hbnb clone"""
+"""A module that defines class to manage file storage for hbnb clone"""
 import json
 
 
 class FileStorage:
-    """The class manage the storage of the hbnb models in a JSON format"""
+    """represent a storage engine for hbnb models"""
     __file_path = 'file.json'
     __objects = {}
 
     def all(self, cls=None):
-        """Return the dictionary of the models currently in storage"""
+        """return dict of instantiated objects in storage"""
         if cls is None:
             return self.__objects
         cls_name = cls.__name__
@@ -20,13 +20,13 @@ class FileStorage:
         return dct
 
     def new(self, obj):
-        """Add the new object to a storage dictionary"""
+        """adds new object to a storage dict"""
         self.__objects.update(
             {obj.to_dict()['__class__'] + '.' + obj.id: obj}
             )
 
     def save(self):
-        """This saves the storage dictionary to a file"""
+        """saves storage dict to the file"""
         with open(self.__file_path, 'w') as f:
             temp = {}
             temp.update(self.__objects)
@@ -35,7 +35,7 @@ class FileStorage:
             json.dump(temp, f)
 
     def reload(self):
-        """Load the storage dictionary from the file"""
+        """loads storage dict from the file"""
         from models.base_model import BaseModel
         from models.user import User
         from models.place import Place
@@ -59,9 +59,7 @@ class FileStorage:
             pass
 
     def delete(self, obj=None):
-        ''' Delete the object obj from attribute
-            __objects if is inside it
-        '''
+        """delete given obj from __objects, if it exists"""
         if obj is None:
             return
         obj_key = obj.to_dict()['__class__'] + '.' + obj.id
@@ -69,5 +67,5 @@ class FileStorage:
             del self.__objects[obj_key]
 
     def close(self):
-        """Calls a reload method"""
+        """call reload method"""
         self.reload()
