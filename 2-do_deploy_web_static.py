@@ -14,7 +14,7 @@ env.user = "ubuntu"
 
 def do_pack():
     """ 
-    function that generates a .tgz archive from the contents of the web_static
+        function that generates a .tgz archive from the contents of the web_static
     """
     now = datetime.now().strftime("%Y%m%d%H%M%S")
 
@@ -30,11 +30,11 @@ def do_pack():
 
 def do_deploy(archive_path):
     """
-    function that distributes an archive path
+        function that distributes an archive path
     """
     if not os.path.exists(archive_path):
         return False
-    # Uncompress the archive to the folder
+
     file_name = os.path.basename(archive_path)
     folder_name = file_name.replace(".tgz", "")
     folder_path = "/data/web_static/releases/{}/".format(folder_name)
