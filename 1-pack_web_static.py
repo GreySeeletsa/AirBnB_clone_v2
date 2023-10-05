@@ -1,33 +1,12 @@
 #!/usr/bin/python3
-<<<<<<< HEAD
-'''Fabric the script to generate the .tgz archive'''
-
-from fabric.api import local
-from datetime import datetime
-
-from fabric.decorators import runs_once
-=======
 """Fabric script that generates a .tgz archive."""
 import os
 from datetime import datetime
 from fabric.api import local, runs_once
->>>>>>> 855e1594e620874ebcbc7ecab6055a6839e634c5
 
 
 @runs_once
 def do_pack():
-<<<<<<< HEAD
-    '''generating the .tgz archive from contents of a web_static folder'''
-    local("mkdir -p versions")
-    path = ("versions/web_static_{}.tgz"
-            .format(datetime.strftime(datetime.now(), "%Y%m%d%H%M%S")))
-    result = local("tar -cvzf {} web_static"
-                   .format(path))
-
-    if result.failed:
-        return None
-    return path
-=======
     """Protatype to archive static files."""
     if not os.path.isdir("versions"):
         os.mkdir("versions")
@@ -48,4 +27,3 @@ def do_pack():
     except Exception:
         output = None
     return output
->>>>>>> 855e1594e620874ebcbc7ecab6055a6839e634c5
